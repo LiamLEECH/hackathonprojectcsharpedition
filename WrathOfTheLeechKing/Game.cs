@@ -40,6 +40,11 @@ namespace WrathOfTheLeechKing {
                 if (splicedCmd.Length > 0) { // A command of some kind was entered
                     switch (splicedCmd[0]) {
                         case "attack":
+                        case "a":
+                        case "att":
+                        case "atk":
+                        case "kill":
+                        case "hit":
                             if (splicedCmd.Length >= 2) { // Check if theres a target.
                                 int targetI = enemies.FindIndex(e => (e.EnemyName.ToLower() == splicedCmd[1]));
                                 if (targetI >= 0) { // Target is legal

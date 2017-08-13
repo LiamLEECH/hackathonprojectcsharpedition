@@ -173,7 +173,7 @@ namespace WrathOfTheLeechKing {
         }
         private static List<string> enemyNames = new List<string>() {
             "James", "John", "Rob", "Mike", "Will", "Davo", "Charlie", "Joseph", "Joe", "Paul", "Dan", "Mark",
-            "Donald", "Eddy", "Ron", "Brian", "Tony", "Matt", "Gazza", "Timo", "Steve",
+            "Donald", "Eddy", "Ron", "Brian", "Tony", "Matt", "Gazza", "Timo", "Steve", "Luke",
             "Eric", "Ray", "Andy", "Pat", "Juan", "Jack", "Frank", "Scotty",
             "Mary", "Linda", "Barb", "Liza", "Jen", "Maria", "Susy", "Lisa", "Karen", "Betty",
             "Carol", "Sandra", "Anna", "Amy", "Rebecca", "Jess", "Debra", "Joyce", "Diane", "Alice"
@@ -233,6 +233,11 @@ namespace WrathOfTheLeechKing {
                                    26, 30, // Low and High HP
                                    2, 4, 4, // Dice, Sides, Mod
                                    80, 12, // Hit%, Dodge%
+                                   1, AttackTypes.Magi)}, // Def, Atype
+            { "Shoes", new EnemyData("Sentient Shoes", // Name
+                                   26, 30, // Low and High HP
+                                   2, 4, 4, // Dice, Sides, Mod
+                                   85, 20, // Hit%, Dodge%
                                    1, AttackTypes.Magi)}, // Def, Atype
         };
         
