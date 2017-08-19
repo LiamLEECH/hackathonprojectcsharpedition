@@ -7,8 +7,13 @@ using System.Threading.Tasks;
 namespace WrathOfTheLeechKing {
     class DiceSet {
 
+        private List<Dice> diceList;
         public List<Dice> DiceList {
-            get; set;
+            get {
+                return diceList;
+            } set {
+                diceList = value;
+            }
         }
         public int Modifier {
             get; set;
@@ -23,6 +28,14 @@ namespace WrathOfTheLeechKing {
             this.Modifier = modifier;
         }
 
+        public void AddDice(Dice d) {
+            int dindex = diceList.FindIndex((x) => x.Sides == d.Sides);
+            if (dindex < 0) {
+                diceList.Add(d);
+            } else {
+                diceList[dindex].Amount += d.Amount;
+            }
+        }
         public int RollDice(Random rand) {
             int result = 0;
             foreach (Dice d in this.DiceList) {
@@ -30,8 +43,12 @@ namespace WrathOfTheLeechKing {
             }
             return result + Modifier;
         }
+        private void OrderDice() {
+            diceList.Sort((a, b) => a.Sides.CompareTo(b.Sides));
+        }
 
         public override string ToString() {
+            OrderDice();
             StringBuilder sb = new StringBuilder();
             foreach (Dice d in this.DiceList) {
                 sb.Append(d.ToString())

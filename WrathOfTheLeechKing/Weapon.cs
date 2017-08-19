@@ -15,34 +15,42 @@ namespace WrathOfTheLeechKing {
         public int Accuracy {
             get; set;
         }
-        public List<WeaponEffects> Effects {
+        public int CritDamagePercent {
+            get; set;
+        }
+        public int CritChance {
+            get; set;
+        }
+        public Game.DamageTypes DamageType {
             get; set;
         }
 
-        public enum WeaponEffects {
-            Salty
+        public List<WeaponData.WeaponEffects> Effects {
+            get; set;
         }
 
-        public Weapon(string name, DiceSet damageDice, int accuracy, List<WeaponEffects> effects) {
-
-        }
-
-        private struct WeaponData {
-            public string name;
-            public DiceSet damageDice;
-            public int accuracy;
-            public WeaponData(string name, int accuracy, DiceSet damageDice) {
-                this.name = name;
-                this.damageDice = damageDice;
-                this.accuracy = accuracy;
+        public string EffectsToString() {
+            StringBuilder sb = new StringBuilder();
+            sb.Append(DamageType);
+            foreach (WeaponData.WeaponEffects effect in Effects) {
+                sb.Append(", ");
+                sb.Append(effect.ToString());
             }
+            return sb.ToString();
+        }
+        
+        public Weapon(string name, DiceSet damageDice, int accuracy, int critDamagePercent, 
+                      int critChance, List<WeaponData.WeaponEffects> effects, Game.DamageTypes damageType) {
+            this.Name = name;
+            this.DamageDice = damageDice;
+            this.Accuracy = accuracy;
+            this.CritDamagePercent = critDamagePercent;
+            this.CritChance = critChance;
+            this.Effects = effects;
+            this.DamageType = damageType;
+
         }
 
-        private static WeaponData[] coreWeapons = {
-            new WeaponData("Dagger", 75,
-                            new DiceSet(new Dice[] {new Dice(1, 4)}, 0)),
-            new WeaponData("Katana", 75,
-                            new DiceSet(new Dice[] {new Dice(2, 6), new Dice(1, 8)}, 0)),
-        };
+        
     }
 }
