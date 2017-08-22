@@ -18,7 +18,7 @@ namespace WrathOfTheLeechKing {
             int critD = wep.critDamagePercent;
             string name = pre.name + wep.name + sue.name;
             DiceSet dmgd = wep.damageDice;
-            Game.DamageTypes dmgT = Game.DamageTypes.None;
+            Game.DamageElements dmgE = Game.DamageElements.None;
             List<WeaponEffects> weffs = new List<WeaponEffects>();
 
             IEnumerable<WeaponEffectStruct> es = pre.effects.Union(sue.effects);
@@ -43,7 +43,7 @@ namespace WrathOfTheLeechKing {
                         critD += int.Parse(eff.values[0]);
                         break;
                     case WeaponEffects.Element:
-                        dmgT = (Game.DamageTypes)Enum.Parse(typeof(Game.DamageTypes), eff.values[0]);
+                        dmgE = (Game.DamageElements)Enum.Parse(typeof(Game.DamageElements), eff.values[0]);
                         break;
                     case WeaponEffects.AccuracyInc:
                         acc += int.Parse(eff.values[0]);
@@ -53,7 +53,7 @@ namespace WrathOfTheLeechKing {
                 }
             }
 
-            return new Weapon(name, dmgd, acc, critD, critC, weffs, dmgT);
+            return new Weapon(name, dmgd, acc, critD, critC, weffs, dmgE);
         }
 
 

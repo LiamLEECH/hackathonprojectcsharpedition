@@ -8,7 +8,7 @@ namespace WrathOfTheLeechKing {
     class Program {
         static void Main(string[] args) {
             Random rand = new Random();
-            Console.WriteLine("Enter command: (s - start, w - generate 3 random weapons, r - generate a random room");
+            Console.WriteLine("Enter command: (s - start, w - generate 3 random weapons, r - generate a random room, n - names test");
             bool continueLoop = true;
             while (continueLoop) {
                 Console.WriteLine();
@@ -29,6 +29,9 @@ namespace WrathOfTheLeechKing {
                         GenerateSampleRoom(rand, 0, 0);
                         Console.WriteLine("------------");
                         break;
+                    case 'n':
+                        EnemyData.PrintNames(rand);
+                        break;
                 }
             }
             // Game Loop
@@ -37,6 +40,7 @@ namespace WrathOfTheLeechKing {
             while (continueLoop) {
                 continueLoop = game.DoGameAction(false);
             }
+            Console.ReadLine();
         }
 
         static void GenerateSampleWeapon(int difficulty, Random r) {

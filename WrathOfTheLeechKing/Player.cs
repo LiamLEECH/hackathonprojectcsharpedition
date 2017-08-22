@@ -42,6 +42,9 @@ namespace WrathOfTheLeechKing {
         public int Con {
             get; set;
         }
+        public Weapon eWeapon {
+            get; set;
+        }
         public Races Race {
             get; set;
         }
@@ -53,12 +56,16 @@ namespace WrathOfTheLeechKing {
             Human, Dwarf, Elf, WolfMan, BonelessMan
         }
 
-        public Player(Races race, Random rand) {
+        public Player(Races race, bool genWep, Random rand) {
             RaceData rd = racesDict[race];
-            Init(race, rd.maxHP, rd.maxMP, rd.str, rd.spi, rd.dex, rd.agi, rd.con, rand);
+            Weapon w = null;
+            if (genWep) {
+                w = WeaponData.GenerateWeapon(1, rand);
+            }
+            Init(race, rd.maxHP, rd.maxMP, rd.str, rd.spi, rd.dex, rd.agi, rd.con, w, rand);
         }
 
-        private void Init(Races race, int maxHP, int maxMP, int str, int spi, int dex, int agi, int con, Random rand) {
+        private void Init(Races race, int maxHP, int maxMP, int str, int spi, int dex, int agi, int con, Weapon eWep, Random rand) {
             this.MaxHP = maxHP;
             this.CurrHP = maxHP;
             this.MaxMP = maxMP;
@@ -69,6 +76,7 @@ namespace WrathOfTheLeechKing {
             this.Agi = agi;
             this.Con = con;
             this.Race = race;
+            this.eWeapon = eWep;
 
             this.growthRandom = rand;
             this.Level = 0;

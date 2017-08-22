@@ -21,7 +21,7 @@ namespace WrathOfTheLeechKing {
         public int CritChance {
             get; set;
         }
-        public Game.DamageTypes DamageType {
+        public Game.DamageElements WeaponElement {
             get; set;
         }
 
@@ -31,7 +31,7 @@ namespace WrathOfTheLeechKing {
 
         public string EffectsToString() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(DamageType);
+            sb.Append(WeaponElement);
             foreach (WeaponData.WeaponEffects effect in Effects) {
                 sb.Append(", ");
                 sb.Append(effect.ToString());
@@ -40,14 +40,14 @@ namespace WrathOfTheLeechKing {
         }
         
         public Weapon(string name, DiceSet damageDice, int accuracy, int critDamagePercent, 
-                      int critChance, List<WeaponData.WeaponEffects> effects, Game.DamageTypes damageType) {
+                      int critChance, List<WeaponData.WeaponEffects> effects, Game.DamageElements damageType) {
             this.Name = name;
             this.DamageDice = damageDice;
             this.Accuracy = accuracy;
             this.CritDamagePercent = critDamagePercent;
             this.CritChance = critChance;
             this.Effects = effects;
-            this.DamageType = damageType;
+            this.WeaponElement = damageType;
 
         }
 
