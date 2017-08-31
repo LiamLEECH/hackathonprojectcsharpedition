@@ -42,7 +42,13 @@ namespace WrathOfTheLeechKing {
         public int Con {
             get; set;
         }
-        public Weapon eWeapon {
+        public Weapon EWeapon {
+            get; set;
+        }
+        public Weapon SecondWeapon {
+            get; set;
+        }
+        public List<Charm> Charms {
             get; set;
         }
         public Races Race {
@@ -76,7 +82,9 @@ namespace WrathOfTheLeechKing {
             this.Agi = agi;
             this.Con = con;
             this.Race = race;
-            this.eWeapon = eWep;
+            this.EWeapon = eWep;
+            this.SecondWeapon = null;
+            this.Charms = new List<Charm>();
 
             this.growthRandom = rand;
             this.Level = 0;
@@ -97,6 +105,15 @@ namespace WrathOfTheLeechKing {
             if (ExpForLevel(this.Level+1) <= this.TotalExp) {
                 this.LevelUp();
                 this.CheckLevelUp(); // Recursion incase the player gains enough exp to level up multiple times
+            }
+        }
+
+        public void GainCharm(Charm charm) {
+            int index = Charms.FindIndex((c) => (charm.ToString() == c.ToString()));
+            if (index == -1) { // If player does not yet have the charm
+                this.Charms.Add(charm);
+            } else { // Charm exists
+                this.Charms[index].AmountOwned += charm.AmountOwned;
             }
         }
 
@@ -126,6 +143,7 @@ namespace WrathOfTheLeechKing {
                                       2, 4, 3,    // Str Spi Dex
                                       3, 1)},     //Agi Con
         };
+
 
     }
 }

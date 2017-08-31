@@ -46,13 +46,7 @@ namespace WrathOfTheLeechKing {
         static void GenerateSampleWeapon(int difficulty, Random r) {
             Weapon wep = WeaponData.GenerateWeapon(difficulty, r);
             Console.WriteLine(wep.Name);
-            Console.WriteLine(
-                new StringBuilder().Append("Damage Dice: ").Append(wep.DamageDice.ToString())
-                                   .Append(", Acc: ").Append(wep.Accuracy)
-                                   .Append(", Crit Chance: ").Append(wep.CritChance)
-                                   .Append(", Crit Multiplier: ").Append((float)wep.CritDamagePercent/100.0f)
-                                   .ToString()
-            );
+            Console.WriteLine(wep.ToString());
             Console.WriteLine(wep.EffectsToString());
         }
 

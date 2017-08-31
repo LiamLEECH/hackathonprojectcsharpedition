@@ -21,7 +21,7 @@ namespace WrathOfTheLeechKing {
         public int CritChance {
             get; set;
         }
-        public Game.DamageElements WeaponElement {
+        public List<Game.DamageElements> WeaponElements {
             get; set;
         }
 
@@ -31,23 +31,35 @@ namespace WrathOfTheLeechKing {
 
         public string EffectsToString() {
             StringBuilder sb = new StringBuilder();
-            sb.Append(WeaponElement);
-            foreach (WeaponData.WeaponEffects effect in Effects) {
+            foreach (Game.DamageElements elem in WeaponElements) {
+                sb.Append(" " + elem);
                 sb.Append(", ");
-                sb.Append(effect.ToString());
+            }
+            for (int i  = 0; i < this.Effects.Count; i++) {
+                if (i != 0) sb.Append(", ");
+                sb.Append(Effects[i].ToString());
             }
             return sb.ToString();
         }
-        
+
+        public override string ToString() {
+            return new StringBuilder().Append(this.Name)
+                                   .Append(": Damage Dice: ").Append(this.DamageDice.ToString())
+                                   .Append(", Acc: ").Append(this.Accuracy)
+                                   .Append(", Crit Chance: ").Append(this.CritChance)
+                                   .Append(", Crit Multiplier: ").Append((float)this.CritDamagePercent / 100.0f)
+                                   .ToString();
+        }
+
         public Weapon(string name, DiceSet damageDice, int accuracy, int critDamagePercent, 
-                      int critChance, List<WeaponData.WeaponEffects> effects, Game.DamageElements damageType) {
+                      int critChance, List<WeaponData.WeaponEffects> effects, List<Game.DamageElements> damageTypes) {
             this.Name = name;
             this.DamageDice = damageDice;
             this.Accuracy = accuracy;
             this.CritDamagePercent = critDamagePercent;
             this.CritChance = critChance;
             this.Effects = effects;
-            this.WeaponElement = damageType;
+            this.WeaponElements = damageTypes;
 
         }
 

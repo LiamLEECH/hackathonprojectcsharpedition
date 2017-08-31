@@ -48,13 +48,17 @@ namespace WrathOfTheLeechKing {
         }
 
         public override string ToString() {
+            return ToString(0);
+        }
+
+        public string ToString(int modifierModifier) {
             OrderDice();
             StringBuilder sb = new StringBuilder();
             foreach (Dice d in this.DiceList) {
                 sb.Append(d.ToString())
                   .Append(" + ");
             }
-            return sb.Append(Modifier)
+            return sb.Append(Modifier + modifierModifier)
                      .ToString();
         }
 

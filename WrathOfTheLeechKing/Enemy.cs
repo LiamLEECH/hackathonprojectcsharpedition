@@ -72,6 +72,11 @@ namespace WrathOfTheLeechKing {
                  );
         }
 
+        public bool DealDamage(int dmg) {
+            this.CurrHP -= dmg;
+            if (CurrHP <= 0) return true; return false;
+        }
+
         public override string ToString() {
             return this.Name + " the " + this.Species;
         }

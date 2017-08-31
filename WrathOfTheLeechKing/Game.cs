@@ -16,7 +16,7 @@ namespace WrathOfTheLeechKing {
 
         public Game(Player.Races race) {
             rand = new Random();
-            player = new Player(race, rand);
+            player = new Player(race, true, rand);
             currX = 0;
             currY = 0;
             rooms = new List<Room>();
@@ -31,7 +31,7 @@ namespace WrathOfTheLeechKing {
         }
 
         public enum DamageElements {
-            None, Heat, Cold, Salt, Corrode, Shock, Noxious
+            None, Heat, Cold, Salt, Corrode, Shock, Calamity
         }
         public enum DamageTypes {
             Phys, Magi
@@ -43,7 +43,7 @@ namespace WrathOfTheLeechKing {
             bool readingCmd = true;
             bool quitGame = false;
             while(readingCmd) {
-                Console.Write(">>");
+                Console.Write("\n>>");
                 string cmd = Console.ReadLine();
                 string[] splicedCmd = cmd.ToLower().Split(' ');
                 if (splicedCmd.Length > 0) { // A command was entered
@@ -128,7 +128,7 @@ namespace WrathOfTheLeechKing {
                         case "i":
                         case "inventory":
                         case "me":
-                            DisplayPlayerInfo();
+                            DisplayInventory();
                             continue;
                         case "help":
                         case "?":
@@ -177,7 +177,47 @@ namespace WrathOfTheLeechKing {
 
         private void AttackEnemy(int eIndex) {
             Enemy e = enemies[eIndex];
-            Console.Write("\nYou attack " + e.ToString() + " with your " + player.wepon)
+            Console.Write("\nYou attack " + e.ToString() + " with your " + player.EWeapon.Name + ".");
+            int finalHitChance = CalcPlayerChanceToHit(e);
+            Console.Write("\nChance to hit: " + finalHitChance + "% |>");
+            if ((rand.Next(0, 99) < finalHitChance)) { // Attack hits
+                // Check crit
+                Console.Write("Hit<| Crit Chance: " + player.EWeapon.CritChance + "% |>");
+                int damage = PlayerAttackDamageCalc(e);
+                if (rand.Next(0, 99) < player.EWeapon.CritChance) { // Crits
+                    Console.Write("Crit<|\n");
+                    float critMult = player.EWeapon.CritDamagePercent / 100;
+                    damage = (int)critMult * damage;
+                } else { // No crit
+                    Console.Write("No crit<|\n");
+                }
+                Console.WriteLine("Damage Roll [" + PlayerDamageRollString(e) + "]");
+                Console.WriteLine("Damage dealt: " + damage);
+                bool enemyDead = e.DealDamage(damage);
+                if (enemyDead) {
+                    Console.WriteLine(e.ToString() + " has been slain.");
+                    enemies.RemoveAt(eIndex);
+                }
+            } else { // Miss
+                Console.Write("Miss<|\n");
+            }
+            Console.WriteLine();
+
+        }
+
+        private void DisplayInventory() {
+            Console.WriteLine("Equipped Weapon: " + player.EWeapon.ToString());
+            Console.WriteLine("Weapon effects: " + player.EWeapon.EffectsToString());
+            if (player.SecondWeapon != null) {
+                Console.WriteLine("Backup Weapon: " + player.SecondWeapon.ToString());
+                Console.WriteLine("Weapon effects: " + player.SecondWeapon.EffectsToString());
+            } else {
+                Console.WriteLine("No Backup Weapon");
+            }
+            Console.WriteLine("Charms:");
+            foreach (Charm c in player.Charms) {
+                Console.Write(c.AmountOwned + "x " + c.ToString() + ". ");
+            }
         }
 
         private void MovePlayer(int dirx, int diry) {
@@ -204,6 +244,28 @@ namespace WrathOfTheLeechKing {
             foreach (Enemy e in enemies) {
                 Console.WriteLine("|> " + e.ToString() + " <||> HP: " + e.CurrHP + "/" + e.MaxHP + " <|");
             }
+        }
+
+        private int CalcPlayerChanceToHit(Enemy enemy) {
+            int hitc = player.EWeapon.Accuracy + (player.Dex * 4);
+            hitc -= enemy.DodgeChance;
+            if (hitc < 0) hitc = 0;
+            if (hitc > 100) hitc = 100;
+            return hitc;
+        }
+
+        private int PlayerAttackDamageCalc(Enemy e) {
+            int dmg = player.EWeapon.DamageDice.RollDice(rand) + player.Str;
+            dmg -= e.PhysDefence;
+            if (dmg < 0) dmg = 0;
+            return dmg;
+        }
+
+        private string PlayerDamageRollString(Enemy e) {
+            return new StringBuilder().Append(player.EWeapon.DamageDice.ToString(player.Str))
+                                      .Append(" - Enemy Def: ")
+                                      .Append(e.PhysDefence)
+                                      .ToString();
         }
 
     }
